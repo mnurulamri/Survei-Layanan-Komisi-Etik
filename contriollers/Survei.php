@@ -72,13 +72,17 @@ class Survei extends CI_Controller {
 
     // Halaman rekap untuk Admin
     public function rekap() 
-    {
-        if($this->session->userdata('level') != 'admin') show_404(); // hanya admin
-        
-        $data['title'] = 'Rekap Survei';
-        $data['rekap'] = $this->Survei_model->get_rekap();
-        $this->load->view('templates/header', $data);
-        $this->load->view('survei/v_rekap_survei', $data);
-        $this->load->view('templates/footer');
-    }
+{
+    if($this->session->userdata('level') != 'admin') show_404(); // hanya admin
+    
+    $data['title'] = 'Rekap Survei Kepuasan';
+    $data['rekap_skala'] = $this->Survei_model->get_rekap_skala(); // rata2 per pertanyaan
+    $data['rekap_text'] = $this->Survei_model->get_rekap_text(); // saran
+    $data['total_responden'] = $this->Survei_model->get_total_responden();
+    $data['ikm'] = $this->Survei_model->hitung_ikm(); // Indeks Kepuasan Masyarakat
+
+    $this->load->view('templates/header', $data);
+    $this->load->view('survei/v_rekap_survei', $data);
+    $this->load->view('templates/footer');
+}
 }
